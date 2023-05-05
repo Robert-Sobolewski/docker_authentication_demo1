@@ -1,0 +1,37 @@
+
+### create new user
+POST http://localhost:4000/api_v1/register
+Content-Type: application/json
+
+{
+    "username": "aaa",
+    "email": "aaa@email.com",
+    "password": "aaa"
+}
+### create new user
+POST http://localhost:4000/api_v1/register
+Content-Type: application/json
+
+{
+    "username": "bbb",
+    "email": "bbb@email.com",
+    "password": "bbb"
+}
+### create new wrong user
+POST http://localhost:4000/api_v1/register
+Content-Type: application/json
+
+{
+    "username": "a",
+    "email": "aaa@email.com",
+    "password": "aaa"
+}
+
+### test login endpoint
+POST http://localhost:4000/api_v1/login
+Content-Type: application/json
+
+{
+    "email": "aaa@email.com",
+    "password": "aaa"
+}

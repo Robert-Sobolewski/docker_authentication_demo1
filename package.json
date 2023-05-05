@@ -1,0 +1,8 @@
+{
+  "name": "docker_authentication_demo1",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "https://github.com/Robert-Sobolewski/docker_authentication_demo1.git",
+  "author": "Robert-Sobolewski <84735293+Robert-Sobolewski@users.noreply.github.com>",
+  "license": "MIT"
+}
