@@ -31,17 +31,22 @@ const userSchema: Schema = new Schema({
   },
 });
 
-userSchema.pre<IUser>("save", async function save(next: any) {
-  try {
-    const user = this;
-    const SALT = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(this.password, SALT);
-    user.password = hash;
-    next();
-  } catch (error) {
-    return next(error);
-  }
-});
+// userSchema.pre<IUser>("save", async function save(next: any) {
+//   try {
+//     const user = this;
+//     const SALT = await bcrypt.genSalt(10);
+//     if (!user.isModified) {
+//       const hash = await bcrypt.hash(this.password, SALT);
+//       user.password = hash;
+//       next();
+//     } else {
+//       next();
+//     }
+   
+//   } catch (error) {
+//     return next(error);
+//   }
+// });
 // create method to compare password with the hashed one
 
 // userSchema.methods.isValidPassword = async function (password: string) {

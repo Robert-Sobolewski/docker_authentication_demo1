@@ -9,7 +9,7 @@ const PORT = process.env.PORT || null;
 const DB_URL = process.env.DB_URL || null;
 const SECRET_KEY = process.env.SECRET_KEY || null;
 
-const app = express();
+export const app = express();
 
 /**
  * configuration
@@ -17,7 +17,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 if (!PORT) throw new Error("Check your .env file PORT is not defined !!!");
 if (!DB_URL) throw new Error("DB_URL is not defined !!!");

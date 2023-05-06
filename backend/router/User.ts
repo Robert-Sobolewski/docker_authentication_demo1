@@ -6,8 +6,11 @@ import * as dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 dotenv.config();
 
-const SECRET_KEY = process.env.SET_KEY || null;
-const EXPIRATION = 60 * 60; // 1h
+const SECRET_KEY = process.env.SECRET_KEY || null;
+const EXPIRATION_TIME_MIN = process.env.EXPIRATION_TIME_MIN || null;
+let date = new Date();
+if (!EXPIRATION_TIME_MIN || !SECRET_KEY)
+  throw new Error("EXPIRATION_TIME_MIN or SECRET_KEY not provided !!!");
 
 if (!SECRET_KEY) throw new Error("Secret key not defined !!!");
 
@@ -20,15 +23,19 @@ const checkRole = (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  const token = req.headers["authorization"];
+  const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) {
+    res.redirect("/");
     return res.status(401).send("No token provided");
   }
   jwt.verify(token, SECRET_KEY, (err, decoded: any) => {
+    console.log("decoded: " + JSON.stringify(decoded));
     if (err) {
+      res.redirect("/");
       return res.status(500).send("Failed to authentication !!!");
     }
     if (decoded.role !== "ADMIN") {
+      res.redirect("/");
       return res
         .status(403)
         .send("You are not authorized to access this resource");
@@ -53,7 +60,8 @@ userController.post(
       const newUser = await User.create({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password,
+        password: newPassword, //req.body.password,
+        role: req.body.role!,
       });
       await newUser.save();
       res
@@ -80,6 +88,7 @@ userController.post(
           .status(404)
           .json({ success: false, message: "User not found" });
       const comparePassword = await bcrypt.compare(password, user.password);
+
       if (!comparePassword)
         return res
           .status(403)
@@ -96,7 +105,7 @@ userController.post(
           },
           SECRET_KEY,
           {
-            expiresIn: EXPIRATION, //  60*60*24*365
+            expiresIn: EXPIRATION_TIME_MIN + "m", //  60*60*24*365
           }
         );
         res.cookie("user_id", user._id.toString());

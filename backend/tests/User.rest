@@ -17,6 +17,16 @@ Content-Type: application/json
     "email": "bbb@email.com",
     "password": "bbb"
 }
+### create new admin user
+POST http://localhost:4000/api_v1/register
+Content-Type: application/json
+
+{
+    "username": "ccc",
+    "email": "ccc@email.com",
+    "password": "ccc",
+    "role":"ADMIN"
+}
 ### create new wrong user
 POST http://localhost:4000/api_v1/register
 Content-Type: application/json
@@ -28,10 +38,14 @@ Content-Type: application/json
 }
 
 ### test login endpoint
-POST http://localhost:4000/api_v1/login
+POST http://127.0.0.1:4000/api_v1/login
 Content-Type: application/json
 
 {
-    "email": "aaa@email.com",
-    "password": "aaa"
+    "email": "ccc@email.com",
+    "password": "ccc"
 }
+
+### test protected endpoint
+GET http://localhost:4000/api_v1/protected
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTY2NjIwODM5ZTk4ZGMxZTZkMmQxZSIsInVzZXJuYW1lIjoiY2NjIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNjgzMzg0NjA4LCJleHAiOjE2ODMzODQ2Njh9.8AGwH8b6JYHfKYGyjfXw4W9zFix27e1h4lKf-TS3clA
